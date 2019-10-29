@@ -1,7 +1,8 @@
 from chalice import Chalice
-from botocore.vendored import requests
-# import requests
+# from botocore.vendored import requests
+import requests
 import json
+import os
 
 app = Chalice(app_name='CustomAgentAllocation')
 app.debug = True
@@ -10,7 +11,7 @@ base_url = "https://qismo.qiscus.com"
 
 @app.route('/', methods=['POST'])
 def index():
-    event = app.current_request.json_body
+
     room = event['room_id']
     agent = event['candidate_agent']['id']
     allocation =  allocate(room,agent)
