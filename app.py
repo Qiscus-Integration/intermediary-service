@@ -20,31 +20,31 @@ def index():
     payload = [
         { 
             "key": "Nama",
-            "value": ""
+            "value": "-"
         },
         { 
             "key": "Alamat",
-            "value": ""
+            "value": "-"
         },
         { 
             "key": "No Hp",
-            "value": ""
+            "value": "-"
         },
         { 
             "key": "Order",
-            "value": ""
+            "value": "-"
         },
         { 
             "key": "Jumlah",
-            "value": ""
+            "value": "-"
         },
         { 
             "key": "Biaya",
-            "value": ""
+            "value": "-"
         },
         { 
             "key": "Link Payment",
-            "value": ""
+            "value": "-"
         }
     ]
 
