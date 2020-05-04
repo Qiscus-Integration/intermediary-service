@@ -12,9 +12,9 @@ admin_token = "N4tYDSlsJNc9VvNLcr2d"
 
 @app.route('/', methods=['POST'])
 def index():
-
-    room = event['room_id']
-    agent = event['candidate_agent']['id']
+    body = app.current_request.json_body
+    room = body['room_id']
+    agent = body['candidate_agent']['id']
     allocation =  allocate(room,agent)
 
     payload = [
@@ -49,6 +49,9 @@ def index():
     ]
 
     info = additionalInformation(room, payload)
+    print(f"room: {room}")
+    print(f"agent: {agent}")
+    print(f"userInfo: {info}")
     if info.status_code == 200:
         print("success add info")
 
