@@ -16,11 +16,14 @@ def index():
     room = body['room_id']
     agent = body['candidate_agent']['id']
     allocation =  allocate(room,agent)
-
+    print(f"allocation: {body}")
+    print("==============================")
+    email = body['email']
+    name = body['name']
     payload = [
         { 
             "key": "Nama",
-            "value": "-"
+            "value": name
         },
         { 
             "key": "Alamat",
@@ -28,7 +31,7 @@ def index():
         },
         { 
             "key": "No Hp",
-            "value": "-"
+            "value": email
         },
         { 
             "key": "Order",
@@ -44,14 +47,14 @@ def index():
         },
         { 
             "key": "Link Payment",
-            "value": "-"
+            "value": "https://invoice.bayardulu.com/"
         }
     ]
 
     info = additionalInformation(room, payload)
     print(f"room: {room}")
     print(f"agent: {agent}")
-    print(f"userInfo: {info}")
+    print(f"userInfo: {info.text}")
     if info.status_code == 200:
         print("success add info")
 
@@ -74,10 +77,10 @@ def additionalInformation(room_id, userInfo):
     payload = {
         "user_properties": userInfo
     }
+    print(f"send additionalInformation {payload}")
     url = f"{base_url}/api/v1/qiscus/room/{room_id}/user_info"
     headers = {
         'Authorization': admin_token,
-        }
-    
-    response = requests.request("POST", url, data=json.dumps(payload), headers=headers)
+    }
+    response = requests.post(url, headers=headers, json=payload)
     return response
