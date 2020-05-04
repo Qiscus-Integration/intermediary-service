@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "app_name": "CustomAgentAllocation",
+  "app_name": "WallsDefaultAgentAllocation",
   "stages": {
     "dev": {
       "api_gateway_stage": "api"

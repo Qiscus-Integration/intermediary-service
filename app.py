@@ -4,10 +4,11 @@ import requests
 import json
 import os
 
-app = Chalice(app_name='CustomAgentAllocation')
+app = Chalice(app_name='WallsDefaultAgentAllocation')
 app.debug = True
 
-base_url = "https://qismo.qiscus.com"
+base_url = "https://multichannel.qiscus.com"
+admin_token = "N4tYDSlsJNc9VvNLcr2d"
 
 @app.route('/', methods=['POST'])
 def index():
@@ -18,8 +19,32 @@ def index():
 
     payload = [
         { 
-            "key": "Contact",
-            "value": "https://"
+            "key": "Nama",
+            "value": ""
+        },
+        { 
+            "key": "Alamat",
+            "value": ""
+        },
+        { 
+            "key": "No Hp",
+            "value": ""
+        },
+        { 
+            "key": "Order",
+            "value": ""
+        },
+        { 
+            "key": "Jumlah",
+            "value": ""
+        },
+        { 
+            "key": "Biaya",
+            "value": ""
+        },
+        { 
+            "key": "Link Payment",
+            "value": ""
         }
     ]
 
@@ -36,7 +61,7 @@ def allocate(room_id, agent_id):
             'agent_id':int(agent_id)
         }
     headers = {
-        'Authorization': "5Y3P3TiuAjJSVSJm8hH8",
+        'Authorization': admin_token,
         }
     
     response = requests.request("POST", url, data=payload, headers=headers)
@@ -48,7 +73,7 @@ def additionalInformation(room_id, userInfo):
     }
     url = f"{base_url}/api/v1/qiscus/room/{room_id}/user_info"
     headers = {
-        'Authorization': "5Y3P3TiuAjJSVSJm8hH8",
+        'Authorization': admin_token,
         }
     
     response = requests.request("POST", url, data=json.dumps(payload), headers=headers)

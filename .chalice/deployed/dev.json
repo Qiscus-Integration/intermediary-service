@@ -3,13 +3,13 @@
     {
       "name": "default-role",
       "resource_type": "iam_role",
-      "role_arn": "arn:aws:iam::866459231603:role/CustomAgentAllocation-dev",
-      "role_name": "CustomAgentAllocation-dev"
+      "role_arn": "arn:aws:iam::866459231603:role/WallsDefaultAgentAllocation-dev",
+      "role_name": "WallsDefaultAgentAllocation-dev"
     },
     {
       "name": "api_handler",
       "resource_type": "lambda_function",
-      "lambda_arn": "arn:aws:lambda:ap-southeast-1:866459231603:function:CustomAgentAllocation-dev"
+      "lambda_arn": "arn:aws:lambda:ap-southeast-1:866459231603:function:WallsDefaultAgentAllocation-dev"
     },
     {
       "name": "rest_api",
