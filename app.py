@@ -13,6 +13,7 @@ QISMO_APP_ID = os.getenv("QISMO_APP_ID")
 QISMO_AUTH_TOKEN = os.getenv("QISMO_AUTH_TOKEN")
 QISMO_ADMIN_EMAIL = os.getenv("QISMO_ADMIN_EMAIL")
 
+LINK_PAYMENT = "Link_Payment"
 
 @app.route('/', methods=['POST'])
 def index():
@@ -50,7 +51,7 @@ def index():
             "value": "-"
         },
         { 
-            "key": "Link Payment",
+            "key": LINK_PAYMENT,
             "value": "https://invoice.bayardulu.com/"
         }
     ]
@@ -97,13 +98,21 @@ def submitTicket():
     add_info = body['additional_info']
     room_id = body['room_id']
     message = f"""
+    Berikut e-invoice anda:
+
     Order ID: {room_id}
     """
     for i in add_info:
-        new = f"{i['key']} : {i['value']} \n"
-        message = message + new
-    
-    sendMessage(room_id, message)
+        
+        key =  i['key']
+        value = i['value']
+        if LINK_PAYMENT in key:
+            message = f"{message}\nSilahkan melalukan pembayaran pada link berikut {value}"
+        else:
+            new = f"{key} : {value} \n"
+            message = message + new
+
+    return sendMessage(room_id, message)
 
 def sendMessage(room_id, message):
     print(f"send {message} \nto {room_id}")
@@ -120,7 +129,7 @@ def sendMessage(room_id, message):
         }
     
     response = requests.request("POST", url, data=payload, headers=headers)
-    return response
+    return response.text
 
 
 
