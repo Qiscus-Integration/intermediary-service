@@ -113,9 +113,11 @@ def submitTicket():
             new = f"{key} : {value} \n"
             message = message + new
     message = f"{message} \n{payment}"
-    tag = addTag(room_id)
-    send = sendMessage(room_id, message)
-    return send
+    addTag(room_id)
+    sendMessage(room_id, message)
+    return Response(body={"message": "Job Accepted, please wait 1-2 to complete"},
+                    status_code=200,
+                    headers={'Content-Type': 'application/json'})
 
 def sendMessage(room_id, message):
     print(f"send {message} \nto {room_id}")
@@ -132,8 +134,8 @@ def sendMessage(room_id, message):
         }
     
     response = requests.request("POST", url, data=payload, headers=headers)
-    print(f"send Message: {response.text}")
-    return Response(body={"url": response.text},
+    
+    return Response(body={response.text},
                     status_code=200,
                     headers={'Content-Type': 'application/json'})
 
@@ -151,7 +153,7 @@ def addTag(room_id):
     
     response = requests.request("POST", url, data=payload, headers=headers)
     print(f"add tag: {response.text}")
-    return Response(body={"url": response.text},
+    return Response(body={response.text},
                     status_code=200,
                     headers={'Content-Type': 'application/json'})
 
