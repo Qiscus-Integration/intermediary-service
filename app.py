@@ -97,14 +97,11 @@ def additionalInformation(room_id, userInfo):
 @app.route('/ticket', methods=['POST'])
 def submitTicket():
     body = app.current_request.json_body
-    print(f"body: {body}")
-
     add_info = body['additional_info']
     room_id = body['room_id']
     message = f"Berikut e-invoice anda \nOrder ID: {room_id}\n"
     payment = ""
     for i in add_info:
-        print(f"additional_info {i}")
         key =  i['key']
         value = i['value']
         if LINK_PAYMENT in key:
@@ -121,7 +118,6 @@ def submitTicket():
 
 def sendMessage(room_id, message):
     print(f"send {message} \nto {room_id}")
-    
     url = f"{QISMO_BASE_URL}/{QISMO_APP_ID}/bot"
     payload = {
         "sender_email": QISMO_ADMIN_EMAIL, 
@@ -134,7 +130,7 @@ def sendMessage(room_id, message):
         }
     
     response = requests.request("POST", url, data=payload, headers=headers)
-    
+    print(f"send message {response.text}")
     return Response(body={response.text},
                     status_code=200,
                     headers={'Content-Type': 'application/json'})
