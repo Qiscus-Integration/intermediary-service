@@ -3,7 +3,14 @@
   "app_name": "WallsDefaultAgentAllocation",
   "stages": {
     "dev": {
-      "api_gateway_stage": "api"
+      "api_gateway_stage": "api",
+      "environment_variables": {
+      	"QISCUS_BASE_URL":"https://api3.qiscus.com",
+        "QISMO_BASE_URL":"https://multichannel.qiscus.com",
+        "QISMO_AUTH_TOKEN": "N4tYDSlsJNc9VvNLcr2d",
+        "QISMO_ADMIN_EMAIL": "rir-i1gavwtrrzsh7vk6h_admin@qismo.com",
+        "QISMO_APP_ID": "rir-i1gavwtrrzsh7vk6h"
+      }
     }
   }
 }
