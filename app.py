@@ -1,4 +1,4 @@
-from chalice import Chalice
+from chalice import Chalice, Response
 # from botocore.vendored import requests
 import requests
 import json
@@ -53,6 +53,10 @@ def index():
         { 
             "key": LINK_PAYMENT,
             "value": "https://invoice.bayardulu.com/"
+        },
+        { 
+            "key": "No. Resi",
+            "value": "-"
         }
     ]
 
@@ -97,22 +101,21 @@ def submitTicket():
 
     add_info = body['additional_info']
     room_id = body['room_id']
-    message = f"""
-    Berikut e-invoice anda:
-
-    Order ID: {room_id}
-    """
+    message = f"Berikut e-invoice anda \nOrder ID: {room_id}\n"
+    payment = ""
     for i in add_info:
-        
+        print(f"additional_info {i}")
         key =  i['key']
         value = i['value']
         if LINK_PAYMENT in key:
-            message = f"{message}\nSilahkan melalukan pembayaran pada link berikut {value}"
+            payment = f"Silahkan melalukan pembayaran pada link berikut {value}"
         else:
             new = f"{key} : {value} \n"
             message = message + new
-
-    return sendMessage(room_id, message)
+    message = f"{message} \n{payment}"
+    tag = addTag(room_id)
+    send = sendMessage(room_id, message)
+    return send
 
 def sendMessage(room_id, message):
     print(f"send {message} \nto {room_id}")
@@ -129,7 +132,27 @@ def sendMessage(room_id, message):
         }
     
     response = requests.request("POST", url, data=payload, headers=headers)
-    return response.text
+    print(f"send Message: {response.text}")
+    return Response(body={"url": response.text},
+                    status_code=200,
+                    headers={'Content-Type': 'application/json'})
 
+def addTag(room_id):
+    print(f"add room tag {room_id}")
+    url = f"{QISMO_BASE_URL}/api/v1/room_tag/create"
+    payload = {
+        "tag": room_id,
+        "room_id": room_id
+    }
+    headers = {
+        'Authorization': QISMO_AUTH_TOKEN,
+        'Qiscus-App-Id': QISMO_APP_ID
+    }
+    
+    response = requests.request("POST", url, data=payload, headers=headers)
+    print(f"add tag: {response.text}")
+    return Response(body={"url": response.text},
+                    status_code=200,
+                    headers={'Content-Type': 'application/json'})
 
 
